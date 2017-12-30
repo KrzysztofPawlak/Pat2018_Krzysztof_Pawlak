@@ -1,13 +1,11 @@
 package krzysztof.studio.customer;
 
-import krzysztof.studio.car.CarService;
 import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
