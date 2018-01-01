@@ -1,4 +1,8 @@
 # Pat2018_Krzysztof_Pawlak
+# build and run
+in repository directory - mvn clean install
+
+java -jar target/Pat2018_Krzysztof_Pawlak-0.0.1-SNAPSHOT.jar
 # Car
 ## create new car - POST
 example: localhost:8080/cars
@@ -83,5 +87,5 @@ example: localhost:8080/customers/53050195963
 }
 ```
 to update customer, pesel should be exist in storage
-## delete car - DELETE
+## delete customer - DELETE
 example: localhost:8080/customer/53050195963
