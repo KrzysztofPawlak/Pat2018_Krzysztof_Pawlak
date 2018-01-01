@@ -2,6 +2,7 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CarController {
         return carService.getCarByVin(vin);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value="/cars")
     public void addCar(@RequestBody Car car) {
         carService.addCar(car);

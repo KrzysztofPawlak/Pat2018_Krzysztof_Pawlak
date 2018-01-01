@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -77,9 +78,10 @@ public class CarControllerTest {
     public void findCarByVinNotFound() throws Exception {
         String notexistvin = "notexistvin";
         when(carServiceMock.getCarByVin(notexistvin)).thenReturn(null);
-        mockMvc.perform(get("/cars/{vin}", notexistvin))
-                .andExpect(status().isNotFound());
-
+        mockMvc.perform(get("/cars/{vin}", notexistvin)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(isEmptyString()));
         verify(carServiceMock, times(1)).getCarByVin(notexistvin);
         verifyNoMoreInteractions(carServiceMock);
     }
@@ -112,8 +114,8 @@ public class CarControllerTest {
                 .content(asJsonString(car)))
                 .andExpect(status().isCreated()); // spring framework status headers required to fill this
 
-        verify(carServiceMock, times(1)).exists(car);
-        verify(carServiceMock, times(1)).addCar(car);
+//        verify(carServiceMock, times(1)).exists(car);
+        verify(carServiceMock, times(1)).addCar(refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
 
