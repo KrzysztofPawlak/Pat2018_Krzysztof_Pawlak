@@ -16,27 +16,44 @@ public class CarService {
         return cars;
     }
 
-    public Car getCar(@PathVariable String vin) {
-        return cars.stream().filter(t -> t.getVin().equals(vin)).findFirst().get();
+    public Car getCarByVin(@PathVariable String vin) {
+        if(vin != null) {
+            for(Car c : cars) {
+                if(c.getVin().equals(vin)) {
+                    return c;
+                }
+            }
+        }
+        return null;
     }
 
     public void addCar(Car car) {
-        cars.add(car);
+        if(car.getVin() != null && !exists(car)) {
+            cars.add(car);
+        }
     }
 
     public void deleteCar(String vin) {
-        cars.removeIf(t -> t.getVin().equals(vin));
+        if(vin != null) {
+            cars.removeIf(t -> t.getVin().equals(vin));
+        }
     }
 
     public void updateCar(String vin, Car car) {
         int position = 0;
-        for(Car element : cars) {
-            if(element.getVin().equals(vin)) {
-                car.setVin(vin);
-                cars.set(position, car);
-                return;
+        if(vin != null) {
+            for(Car element : cars) {
+                if(element.getVin().equals(vin)) {
+                    car.setVin(vin);
+                    cars.set(position, car);
+                    return;
+                }
+                position++;
             }
-            position++;
         }
+    }
+
+    public boolean exists(Car car) {
+        return getCarByVin(car.getVin()) != null;
     }
 }

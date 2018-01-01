@@ -18,8 +18,8 @@ public class CarController {
     }
 
     @RequestMapping("/cars/{vin}")
-    public Car getCar(@PathVariable String vin) {
-        return carService.getCar(vin);
+    public Car getCarByVin(@PathVariable String vin) {
+        return carService.getCarByVin(vin);
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/cars")
@@ -33,7 +33,7 @@ public class CarController {
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/cars/{vin}")
-    public void updateCar(@RequestBody Car car, @PathVariable String vin) {
+    public void updateCar(@PathVariable String vin, @RequestBody Car car) {
         carService.updateCar(vin, car);
     }
 }

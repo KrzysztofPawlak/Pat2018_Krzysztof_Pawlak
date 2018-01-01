@@ -67,4 +67,16 @@ public class Car {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if(this == obj) {
+//            return true;
+//        } if(obj == null || getClass() != obj.getClass()) {
+//            return false;
+//        }
+//
+//        Car car = (Car) obj;
+//        return getVin() == car.getVin();
+//    }
 }

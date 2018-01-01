@@ -34,7 +34,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void testGetCar() {
+    public void testGetCustomerCars() {
         Customer customer = customerService.getCustomer("58050503349");
         assertEquals(customer.getCars().size(), CUSTOMER_NUMBER_CARS);
     }

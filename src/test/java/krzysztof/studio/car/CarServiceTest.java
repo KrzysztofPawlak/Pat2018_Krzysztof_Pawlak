@@ -26,7 +26,7 @@ public class CarServiceTest {
 
     @Test
     public void testGetCar() {
-        Car car = carService.getCar(vin);
+        Car car = carService.getCarByVin(vin);
         assertEquals(car.getVin(), vin);
     }
 }

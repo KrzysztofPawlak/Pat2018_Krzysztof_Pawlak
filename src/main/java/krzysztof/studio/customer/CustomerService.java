@@ -16,26 +16,43 @@ public class CustomerService {
     }
 
     public Customer getCustomer(@PathVariable String id) {
-        return customers.stream().filter(t -> t.getPesel().equals(id)).findFirst().get();
+        if(id != null) {
+            for(Customer c : customers) {
+                if(c.getPesel().equals(id)) {
+                    return c;
+                }
+            }
+        }
+        return null;
     }
 
     public void addCustomer(Customer customer) {
-        customers.add(customer);
+        if(customer.getPesel() != null && !exists(customer)) {
+            customers.add(customer);
+        }
     }
 
     public void deleteCustomer(String pesel) {
-        customers.removeIf(t -> t.getPesel().equals(pesel));
+        if(pesel != null) {
+            customers.removeIf(t -> t.getPesel().equals(pesel));
+        }
     }
 
     public void updateCustomer(String pesel, Customer customer) {
         int position = 0;
-        for(Customer element : customers) {
-            if(element.getPesel().equals(pesel)) {
-                customer.setPesel(pesel);
-                customers.set(position, customer);
-                return;
+        if(pesel != null) {
+            for (Customer element : customers) {
+                if (element.getPesel().equals(pesel)) {
+                    customer.setPesel(pesel);
+                    customers.set(position, customer);
+                    return;
+                }
+                position++;
             }
-            position++;
         }
+    }
+
+    public boolean exists(Customer customer) {
+        return getCustomer(customer.getPesel()) != null;
     }
 }
