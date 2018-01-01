@@ -88,4 +88,4 @@ example: localhost:8080/customers/53050195963
 ```
 to update customer, pesel should be exist in storage
 ## delete customer - DELETE
-example: localhost:8080/customer/53050195963
+example: localhost:8080/customers/53050195963
