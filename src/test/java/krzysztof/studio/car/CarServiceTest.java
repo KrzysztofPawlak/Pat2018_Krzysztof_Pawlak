@@ -20,7 +20,7 @@ public class CarServiceTest {
         vin = uuid.randomUUID().toString();
 
         Customer customer = new Customer();
-        Car car = new Car(vin, "BMW", "X2", 2009);
+        Car car = new Car(vin, "BMW", "X2");
         carService.addCar(car);
     }
 

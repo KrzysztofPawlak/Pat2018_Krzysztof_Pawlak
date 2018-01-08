@@ -48,7 +48,7 @@ public class CarControllerTest {
 
         cars = new ArrayList<>();
         Customer customer = new Customer();
-        Car car = new Car(vin, "BMW", "X2", 2009);
+        Car car = new Car(vin, "BMW", "X2");
         car.setCustomer(customer);
         cars.add(car);
     }
@@ -89,7 +89,7 @@ public class CarControllerTest {
     @Test
     public void findCarByVinFound() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X2", 2009);
+        Car car = new Car(vin, "BMW", "X2");
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
         mockMvc.perform(get("/cars/{vin}", vin))
                 .andExpect(status().isOk())
@@ -104,7 +104,7 @@ public class CarControllerTest {
     @Test
     public void testCreateCar() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X2", 2009);
+        Car car = new Car(vin, "BMW", "X2");
         System.out.println(asJsonString(car));
         when(carServiceMock.exists(car)).thenReturn(false);
         doNothing().when(carServiceMock).addCar(car);
@@ -122,7 +122,7 @@ public class CarControllerTest {
     @Test
     public void testUpdateCar() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X7", 2011);
+        Car car = new Car(vin, "BMW", "X7");
 
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
         doNothing().when(carServiceMock).updateCar(vin, car);
@@ -138,7 +138,7 @@ public class CarControllerTest {
     @Test
     public void testDeleteCar() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X7", 2011);
+        Car car = new Car(vin, "BMW", "X7");
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
         doNothing().when(carServiceMock).deleteCar(vin);
         mockMvc.perform(delete("/cars/{vin}", vin))

@@ -24,8 +24,8 @@ public class CustomerServiceTest {
         vin = uuid.randomUUID().toString();
 
         Customer customer = new Customer("58050503349", "Marian", "Dzik", "18-06-1999", Customer.Sex.male);
-        Car car1 = new Car(vin, "BMW", "X2", 2009);
-        Car car2 = new Car(vin, "Fiat", "126p", 1970);
+        Car car1 = new Car(vin, "BMW", "X2");
+        Car car2 = new Car(vin, "Fiat", "126p");
         customer.setCars(new ArrayList<Car>() {{
             add(car1);
             add(car2);

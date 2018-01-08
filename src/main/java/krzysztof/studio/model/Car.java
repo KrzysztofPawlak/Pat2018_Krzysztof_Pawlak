@@ -1,23 +1,74 @@
 package krzysztof.studio.model;
 
+import krzysztof.studio.validation.InRange;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 public class Car {
 
     private String vin; // vehicle identification number
+    @NotNull
     private String make;
     private String model;
-    private int year;
+    @NotNull
     private String registrationNumber;
+    private Integer nrOfSeats;
+    @NotNull
+    @InRange(
+            min = 50,
+            max=6999,
+            message = "minimum capacity is 50, maximum 6999"
+    )
+    private Integer cylinderCapacity;
+    @NotNull
+    private Date dateOfFirstRegistration;
+    @NotNull
+    private Date dateOfRegistration;
+
     private Customer customer;
 
     public Car() {
 
     }
 
-    public Car(String vin, String make, String model, int year) {
+    public Car(String vin, String make, String model) {
         this.vin = vin;
         this.make = make;
         this.model = model;
-        this.year = year;
+//        this.year = year;
+    }
+
+    public Integer getNrOfSeats() {
+        return nrOfSeats;
+    }
+
+    public void setNrOfSeats(Integer nrOfSeats) {
+        this.nrOfSeats = nrOfSeats;
+    }
+
+    public Integer getCylinderCapacity() {
+        return cylinderCapacity;
+    }
+
+    public void setCylinderCapacity(Integer cylinderCapacity) {
+        this.cylinderCapacity = cylinderCapacity;
+    }
+
+    public Date getDateOfFirstRegistration() {
+        return dateOfFirstRegistration;
+    }
+
+    public void setDateOfFirstRegistration(Date dateOfFirstRegistration) {
+        this.dateOfFirstRegistration = dateOfFirstRegistration;
+    }
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     public String getVin() {
@@ -52,14 +103,6 @@ public class Car {
         this.model = model;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -67,16 +110,4 @@ public class Car {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        if(this == obj) {
-//            return true;
-//        } if(obj == null || getClass() != obj.getClass()) {
-//            return false;
-//        }
-//
-//        Car car = (Car) obj;
-//        return getVin() == car.getVin();
-//    }
 }
