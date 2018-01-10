@@ -4,10 +4,10 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = { CapacityValidator.class })
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface InRange {
     String message() default "value is out of range";
     Class<?>[] groups() default {};

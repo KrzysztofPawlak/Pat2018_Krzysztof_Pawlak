@@ -1,8 +1,10 @@
 package krzysztof.studio.model;
 
 import krzysztof.studio.validation.Enum;
+import krzysztof.studio.validation.InDateRange;
 import krzysztof.studio.validation.InRange;
 import krzysztof.studio.validation.MakeEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -20,13 +22,17 @@ public class Car {
     @NotNull
     @InRange(
             min = 50,
-            max=6999,
+            max = 6999,
             message = "minimum capacity is 50, maximum 6999"
     )
     private Integer cylinderCapacity;
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @InDateRange
     private Date dateOfFirstRegistration;
     @NotNull
+    @InDateRange
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfRegistration;
 
     private Customer customer;
@@ -39,7 +45,6 @@ public class Car {
         this.vin = vin;
         this.make = make;
         this.model = model;
-//        this.year = year;
     }
 
     public Integer getNrOfSeats() {
