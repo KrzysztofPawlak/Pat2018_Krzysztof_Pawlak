@@ -1,8 +1,11 @@
 package krzysztof.studio.validation;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+@Component
 public class CapacityValidator implements ConstraintValidator<InRange, Integer> {
 
     private int min;

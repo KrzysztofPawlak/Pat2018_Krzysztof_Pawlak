@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = { CapacityValidator.class })
-public @interface InRange {
-    String message() default "value is out of range";
+@Constraint(validatedBy = { MakeValidator.class })
+public @interface Enum {
+    String message() default "invalid";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    int min() default Integer.MIN_VALUE;
-    int max() default Integer.MAX_VALUE;
+    Class<?extends java.lang.Enum<?>> enumClass();
+    public abstract boolean ignoreCase() default false;
 }

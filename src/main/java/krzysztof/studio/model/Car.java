@@ -1,6 +1,8 @@
 package krzysztof.studio.model;
 
+import krzysztof.studio.validation.Enum;
 import krzysztof.studio.validation.InRange;
+import krzysztof.studio.validation.MakeEnum;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -9,6 +11,7 @@ public class Car {
 
     private String vin; // vehicle identification number
     @NotNull
+    @Enum(enumClass = MakeEnum.class, ignoreCase = true)
     private String make;
     private String model;
     @NotNull
