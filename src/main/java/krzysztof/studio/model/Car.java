@@ -1,12 +1,11 @@
 package krzysztof.studio.model;
 
+import krzysztof.studio.validation.*;
 import krzysztof.studio.validation.Enum;
-import krzysztof.studio.validation.InDateRange;
-import krzysztof.studio.validation.InRange;
-import krzysztof.studio.validation.MakeEnum;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Car {
@@ -17,6 +16,8 @@ public class Car {
     private String make;
     private String model;
     @NotNull
+    @Size(max = 10)
+    @RegistrationNumber
     private String registrationNumber;
     private Integer nrOfSeats;
     @NotNull
