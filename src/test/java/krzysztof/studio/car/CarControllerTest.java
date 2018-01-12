@@ -49,7 +49,7 @@ public class CarControllerTest {
         cars = new ArrayList<>();
         Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-        car.setCustomer(customer);
+//        car.setCustomer(customer);
         cars.add(car);
     }
 
@@ -107,7 +107,7 @@ public class CarControllerTest {
         Car car = new Car(vin, "BMW", "X2");
         System.out.println(asJsonString(car));
         when(carServiceMock.exists(car)).thenReturn(false);
-        doNothing().when(carServiceMock).addCar(car);
+        doNothing().when(carServiceMock).createCar(car);
 
         mockMvc.perform(post("/cars")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +115,7 @@ public class CarControllerTest {
                 .andExpect(status().isCreated()); // spring framework status headers required to fill this
 
 //        verify(carServiceMock, times(1)).exists(car);
-        verify(carServiceMock, times(1)).addCar(refEq(car));
+        verify(carServiceMock, times(1)).createCar(refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
 

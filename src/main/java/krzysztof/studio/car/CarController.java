@@ -2,7 +2,6 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,7 +11,7 @@ import java.util.List;
 public class CarController {
 
     @Autowired
-    private CarService carService;
+    private CarOperations carService;
 
     @RequestMapping("/cars")
     public List<Car> getAllCars() {
@@ -26,8 +25,8 @@ public class CarController {
 
     @PostMapping
     @RequestMapping(method = RequestMethod.POST, value="/cars")
-    public void addCar(@Valid @RequestBody Car car) {
-        carService.addCar(car);
+    public void createCar(@Valid @RequestBody Car car) {
+        carService.createCar(car);
     }
 
     @RequestMapping(method=RequestMethod.DELETE, value="/cars/{vin}")

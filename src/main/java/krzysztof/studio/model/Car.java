@@ -4,12 +4,16 @@ import krzysztof.studio.validation.*;
 import krzysztof.studio.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@Entity
 public class Car {
 
+    @Id
     private String vin; // vehicle identification number
     @NotNull
     @Enum(enumClass = MakeEnum.class, ignoreCase = true)
@@ -36,8 +40,6 @@ public class Car {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfRegistration;
 
-    private Customer customer;
-
     public Car() {
 
     }
@@ -46,6 +48,17 @@ public class Car {
         this.vin = vin;
         this.make = make;
         this.model = model;
+    }
+
+    public Car(String vin, String make, String model, String registrationNumber, Integer nrOfSeats, Integer cylinderCapacity, Date dateOfFirstRegistration, Date dateOfRegistration, Customer customer) {
+        this.vin = vin;
+        this.make = make;
+        this.model = model;
+        this.registrationNumber = registrationNumber;
+        this.nrOfSeats = nrOfSeats;
+        this.cylinderCapacity = cylinderCapacity;
+        this.dateOfFirstRegistration = dateOfFirstRegistration;
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     public Integer getNrOfSeats() {
@@ -112,11 +125,4 @@ public class Car {
         this.model = model;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

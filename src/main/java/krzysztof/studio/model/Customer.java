@@ -1,13 +1,20 @@
 package krzysztof.studio.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
+@Entity
 public class Customer {
+    @Id
     private String pesel;
     private String name;
     private String surname;
     private String dateOfBirth;
     private Sex sex;
+
+    @OneToMany
     private List<Car> cars;
 
     public Customer() {

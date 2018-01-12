@@ -21,7 +21,7 @@ public class CarServiceTest {
 
         Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-        carService.addCar(car);
+        carService.createCar(car);
     }
 
     @Test

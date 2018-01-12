@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 public class RegistrationNumberValidator implements ConstraintValidator<RegistrationNumber, String> {
 
-
     Pattern upperCase = Pattern.compile("[A-Z]*");
     Pattern digitCase = Pattern.compile("[0-9]*");
     Pattern repeat = Pattern.compile("([A-Z]*)\\1$");
