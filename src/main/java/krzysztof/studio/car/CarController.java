@@ -2,23 +2,25 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
 public class CarController {
 
     @Autowired
     private CarOperations carService;
 
-    @RequestMapping("/cars")
+    @RequestMapping(method = RequestMethod.GET, value="/cars")
     public List<Car> getAllCars() {
         return carService.getAllCars();
     }
 
-    @RequestMapping("/cars/{vin}")
+    @RequestMapping(method = RequestMethod.GET, value="/cars/{vin}")
     public Car getCarByVin(@PathVariable String vin) {
         return carService.getCarByVin(vin);
     }

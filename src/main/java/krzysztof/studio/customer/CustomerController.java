@@ -12,12 +12,12 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping("/customers")
+    @RequestMapping(method = RequestMethod.GET, value="/customers")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    @RequestMapping("/customers/{pesel}")
+    @RequestMapping(method = RequestMethod.GET, value="/customers/{pesel}")
     public Customer getCustomer(@PathVariable String pesel) {
         return customerService.getCustomer(pesel);
     }
