@@ -4,25 +4,30 @@ import krzysztof.studio.validation.*;
 import krzysztof.studio.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@Table(name = "car")
 public class Car {
 
     @Id
+    @Column(name = "car_vin")
     private String vin; // vehicle identification number
     @NotNull
     @Enum(enumClass = MakeEnum.class, ignoreCase = true)
+    @Column(name = "car_make")
     private String make;
+    @Column(name = "car_model")
     private String model;
     @NotNull
     @Size(max = 10)
     @RegistrationNumber
+    @Column(name = "car_registration_number")
     private String registrationNumber;
+    @Column(name = "car_seats")
     private Integer nrOfSeats;
     @NotNull
     @InRange(
@@ -30,15 +35,21 @@ public class Car {
             max = 6999,
             message = "minimum capacity is 50, maximum 6999"
     )
+    @Column(name = "car_capacity")
     private Integer cylinderCapacity;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @InDateRange
+    @Column(name = "car_date_first_registration")
     private Date dateOfFirstRegistration;
     @NotNull
     @InDateRange
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "car_date_registration")
     private Date dateOfRegistration;
+    @ManyToOne
+    @JoinColumn(name = "customer_pesel")
+    private Car car;
 
     public Car() {
 
@@ -50,7 +61,7 @@ public class Car {
         this.model = model;
     }
 
-    public Car(String vin, String make, String model, String registrationNumber, Integer nrOfSeats, Integer cylinderCapacity, Date dateOfFirstRegistration, Date dateOfRegistration, Customer customer) {
+    public Car(String vin, String make, String model, String registrationNumber, Integer nrOfSeats, Integer cylinderCapacity, Date dateOfFirstRegistration, Date dateOfRegistration, Car car) {
         this.vin = vin;
         this.make = make;
         this.model = model;
@@ -59,6 +70,7 @@ public class Car {
         this.cylinderCapacity = cylinderCapacity;
         this.dateOfFirstRegistration = dateOfFirstRegistration;
         this.dateOfRegistration = dateOfRegistration;
+        this.car = car;
     }
 
     public Integer getNrOfSeats() {
@@ -125,4 +137,39 @@ public class Car {
         this.model = model;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car1 = (Car) o;
+
+        if (vin != null ? !vin.equals(car1.vin) : car1.vin != null) return false;
+        if (make != null ? !make.equals(car1.make) : car1.make != null) return false;
+        if (model != null ? !model.equals(car1.model) : car1.model != null) return false;
+        if (registrationNumber != null ? !registrationNumber.equals(car1.registrationNumber) : car1.registrationNumber != null)
+            return false;
+        if (nrOfSeats != null ? !nrOfSeats.equals(car1.nrOfSeats) : car1.nrOfSeats != null) return false;
+        if (cylinderCapacity != null ? !cylinderCapacity.equals(car1.cylinderCapacity) : car1.cylinderCapacity != null)
+            return false;
+        if (dateOfFirstRegistration != null ? !dateOfFirstRegistration.equals(car1.dateOfFirstRegistration) : car1.dateOfFirstRegistration != null)
+            return false;
+        if (dateOfRegistration != null ? !dateOfRegistration.equals(car1.dateOfRegistration) : car1.dateOfRegistration != null)
+            return false;
+        return car != null ? car.equals(car1.car) : car1.car == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = vin != null ? vin.hashCode() : 0;
+        result = 31 * result + (make != null ? make.hashCode() : 0);
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (registrationNumber != null ? registrationNumber.hashCode() : 0);
+        result = 31 * result + (nrOfSeats != null ? nrOfSeats.hashCode() : 0);
+        result = 31 * result + (cylinderCapacity != null ? cylinderCapacity.hashCode() : 0);
+        result = 31 * result + (dateOfFirstRegistration != null ? dateOfFirstRegistration.hashCode() : 0);
+        result = 31 * result + (dateOfRegistration != null ? dateOfRegistration.hashCode() : 0);
+        result = 31 * result + (car != null ? car.hashCode() : 0);
+        return result;
+    }
 }

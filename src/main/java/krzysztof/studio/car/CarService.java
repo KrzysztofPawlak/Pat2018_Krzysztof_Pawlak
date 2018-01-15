@@ -17,7 +17,7 @@ public class CarService implements CarOperations {
     }
 
     @Override
-    public Car getCarByVin(@PathVariable String vin) {
+    public Car getCarByVin(String vin) {
         if(vin != null) {
             for(Car c : cars) {
                 if(c.getVin().equals(vin)) {
