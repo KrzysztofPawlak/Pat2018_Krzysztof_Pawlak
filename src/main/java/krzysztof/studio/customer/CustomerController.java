@@ -10,7 +10,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerOperations customerService;
 
     @RequestMapping(method = RequestMethod.GET, value="/customers")
     public List<Customer> getAllCustomers() {
@@ -18,22 +18,22 @@ public class CustomerController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/customers/{pesel}")
-    public Customer getCustomer(@PathVariable String pesel) {
+    public Customer getCustomer(@PathVariable String pesel) throws Exception {
         return customerService.getCustomer(pesel);
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/customers")
-    public void addCustomer(@RequestBody Customer customer) {
-        customerService.addCustomer(customer);
+    public void createCustomer(@RequestBody Customer customer) throws Exception {
+        customerService.createCustomer(customer);
     }
 
     @RequestMapping(method=RequestMethod.DELETE, value="/customers/{pesel}")
-    public void deleteCustomer(@PathVariable String pesel) {
+    public void deleteCustomer(@PathVariable String pesel) throws Exception {
         customerService.deleteCustomer(pesel);
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/customers/{pesel}")
-    public void updateCustomer(@RequestBody Customer customer, @PathVariable String pesel) {
+    public void updateCustomer(@RequestBody Customer customer, @PathVariable String pesel) throws Exception {
         customerService.updateCustomer(pesel, customer);
     }
 }

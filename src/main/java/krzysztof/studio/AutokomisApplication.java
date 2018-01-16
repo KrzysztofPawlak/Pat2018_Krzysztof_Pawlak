@@ -19,7 +19,7 @@ public class AutokomisApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutokomisApplication.class, args);
-		System.out.println("working");
+		log.info("url: " + "http://localhost:8080/v2/api-docs");
 	}
 
 	@Bean

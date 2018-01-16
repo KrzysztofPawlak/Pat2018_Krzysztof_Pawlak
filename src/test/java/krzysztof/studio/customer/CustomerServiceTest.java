@@ -30,7 +30,7 @@ public class CustomerServiceTest {
             add(car1);
             add(car2);
         }});
-        customerService.addCustomer(customer);
+        customerService.createCustomer(customer);
     }
 
     @Test
