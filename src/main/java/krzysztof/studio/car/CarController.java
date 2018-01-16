@@ -1,5 +1,6 @@
 package krzysztof.studio.car;
 
+import krzysztof.studio.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -21,18 +22,18 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/cars/{vin}")
-    public Car getCarByVin(@PathVariable String vin) {
+    public Car getCarByVin(@PathVariable String vin) throws Exception {
         return carService.getCarByVin(vin);
     }
 
     @PostMapping
     @RequestMapping(method = RequestMethod.POST, value="/cars")
-    public void createCar(@Valid @RequestBody Car car) {
+    public void createCar(@Valid @RequestBody Car car) throws Exception {
         carService.createCar(car);
     }
 
     @RequestMapping(method=RequestMethod.DELETE, value="/cars/{vin}")
-    public void deleteCar(@PathVariable String vin) {
+    public void deleteCar(@PathVariable String vin) throws Exception {
         carService.deleteCar(vin);
     }
 

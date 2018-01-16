@@ -1,6 +1,7 @@
 package krzysztof.studio.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -8,6 +9,7 @@ import java.util.List;
 public class Customer {
     @Id
     @Column(name = "customer_pesel")
+    @NotNull
     private String pesel;
     @Column(name = "customer_name")
     private String name;

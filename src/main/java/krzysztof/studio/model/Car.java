@@ -15,6 +15,7 @@ public class Car {
 
     @Id
     @Column(name = "car_vin")
+    @NotNull
     private String vin; // vehicle identification number
     @NotNull
     @Enum(enumClass = MakeEnum.class, ignoreCase = true)

@@ -7,8 +7,8 @@ import java.util.List;
 public interface CarOperations {
 
     List<Car> getAllCars();
-    Car getCarByVin(String vin);
-    void createCar(Car car);
-    void deleteCar(String vin);
-    void updateCar(String vin, Car car);
+    Car getCarByVin(String vin) throws Exception;
+    void createCar(Car car) throws Exception;
+    void deleteCar(String vin) throws Exception;
+    void updateCar(String vin, Car car) throws Exception;
 }

@@ -1,5 +1,6 @@
 package krzysztof.studio.car;
 
+import krzysztof.studio.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,22 +20,46 @@ public class CarServiceH2 implements CarOperations {
     }
 
     @Override
-    public Car getCarByVin(String vin) {
-        return carRepository.findOne(vin);
+    public Car getCarByVin(String vin) throws Exception {
+
+        Car car = carRepository.findOne(vin);
+
+        if (car == null) {
+            ExceptionThrower eT = new ExceptionThrower();
+            eT.throwGeneralException();
+        }
+
+        return car;
     }
 
     @Override
-    public void createCar(Car car) {
-        carRepository.save(car);
+    public void createCar(Car car) throws Exception {
+        if(carRepository.findOne(car.getVin()) == null) {
+            carRepository.save(car);
+        } else {
+            ExceptionThrower eT = new ExceptionThrower();
+            eT.throwGeneralException();
+        }
     }
 
     @Override
-    public void deleteCar(String vin) {
-        carRepository.delete(vin);
+    public void deleteCar(String vin) throws Exception {
+        if(carRepository.findOne(vin) != null) {
+            carRepository.delete(vin);
+        } else {
+            ExceptionThrower eT = new ExceptionThrower();
+            eT.throwGeneralException();
+        }
+
     }
 
     @Override
-    public void updateCar(String vin, Car car) {
-        carRepository.save(car);
+    public void updateCar(String vin, Car car) throws Exception {
+        if(carRepository.findOne(vin) != null) {
+            carRepository.save(car);
+        } else {
+            ExceptionThrower eT = new ExceptionThrower();
+            eT.throwGeneralException();
+        }
     }
 }
