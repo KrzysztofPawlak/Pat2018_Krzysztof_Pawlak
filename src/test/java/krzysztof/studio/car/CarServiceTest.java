@@ -4,8 +4,10 @@ import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.*;
 import java.util.UUID;
 
 public class CarServiceTest {
@@ -14,14 +16,18 @@ public class CarServiceTest {
     private UUID uuid;
     private String vin;
 
+    @Mock
+    private CarRepository carRepository;
+
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
         carService = new CarService();
         vin = uuid.randomUUID().toString();
 
         Customer customer = new Customer();
-        Car car = new Car(vin, "BMW", "X2", 2009);
-        carService.addCar(car);
+        Car car = new Car(vin, "BMW", "X2");
+        carService.createCar(car);
     }
 
     @Test
@@ -29,4 +35,5 @@ public class CarServiceTest {
         Car car = carService.getCarByVin(vin);
         assertEquals(car.getVin(), vin);
     }
+
 }

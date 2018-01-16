@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class CarService {
+public class CarService implements CarOperations {
 
     private List<Car> cars = new ArrayList();
 
+    @Override
     public List<Car> getAllCars() {
         return cars;
     }
 
-    public Car getCarByVin(@PathVariable String vin) {
+    @Override
+    public Car getCarByVin(String vin) {
         if(vin != null) {
             for(Car c : cars) {
                 if(c.getVin().equals(vin)) {
@@ -27,18 +28,21 @@ public class CarService {
         return null;
     }
 
-    public void addCar(Car car) {
+    @Override
+    public void createCar(Car car) {
         if(car.getVin() != null && !exists(car)) {
             cars.add(car);
         }
     }
 
+    @Override
     public void deleteCar(String vin) {
         if(vin != null) {
             cars.removeIf(t -> t.getVin().equals(vin));
         }
     }
 
+    @Override
     public void updateCar(String vin, Car car) {
         int position = 0;
         if(vin != null) {

@@ -1,13 +1,25 @@
 package krzysztof.studio.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Entity
+@Table(name = "customer")
 public class Customer {
+    @Id
+    @Column(name = "customer_pesel")
+    @NotNull
     private String pesel;
+    @Column(name = "customer_name")
     private String name;
+    @Column(name = "customer_surname")
     private String surname;
+    @Column(name = "customer_birth")
     private String dateOfBirth;
+    @Column(name = "customer_sex")
     private Sex sex;
+    @OneToMany(mappedBy = "car")
     private List<Car> cars;
 
     public Customer() {
@@ -73,5 +85,32 @@ public class Customer {
     public enum Sex {
         male,
         female
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (pesel != null ? !pesel.equals(customer.pesel) : customer.pesel != null) return false;
+        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
+        if (surname != null ? !surname.equals(customer.surname) : customer.surname != null) return false;
+        if (dateOfBirth != null ? !dateOfBirth.equals(customer.dateOfBirth) : customer.dateOfBirth != null)
+            return false;
+        if (sex != customer.sex) return false;
+        return cars != null ? cars.equals(customer.cars) : customer.cars == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pesel != null ? pesel.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (cars != null ? cars.hashCode() : 0);
+        return result;
     }
 }
