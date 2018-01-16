@@ -1,4 +1,4 @@
-package krzysztof.studio.model;
+package krzysztof.studio.exceptions.model;
 
 public class ExceptionResponse {
     private int code;

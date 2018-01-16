@@ -1,6 +1,6 @@
 package krzysztof.studio.car;
 
-import krzysztof.studio.component.ExceptionThrower;
+import krzysztof.studio.exceptions.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class CarServiceH2 implements CarOperations {
 
         if (car == null) {
             ExceptionThrower eT = new ExceptionThrower();
-            eT.throwGeneralException();
+            eT.throwNotFoundException();
         }
 
         return car;
@@ -38,7 +38,7 @@ public class CarServiceH2 implements CarOperations {
             carRepository.save(car);
         } else {
             ExceptionThrower eT = new ExceptionThrower();
-            eT.throwGeneralException();
+            eT.throwAlreadyExistException();
         }
     }
 
@@ -48,9 +48,8 @@ public class CarServiceH2 implements CarOperations {
             carRepository.delete(vin);
         } else {
             ExceptionThrower eT = new ExceptionThrower();
-            eT.throwGeneralException();
+            eT.throwNotFoundException();
         }
-
     }
 
     @Override
@@ -59,7 +58,7 @@ public class CarServiceH2 implements CarOperations {
             carRepository.save(car);
         } else {
             ExceptionThrower eT = new ExceptionThrower();
-            eT.throwGeneralException();
+            eT.throwNotFoundException();
         }
     }
 }

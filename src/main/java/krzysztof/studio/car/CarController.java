@@ -1,6 +1,5 @@
 package krzysztof.studio.car;
 
-import krzysztof.studio.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +37,7 @@ public class CarController {
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/cars/{vin}")
-    public void updateCar(@PathVariable String vin, @RequestBody Car car) {
+    public void updateCar(@PathVariable String vin, @RequestBody Car car) throws Exception {
         carService.updateCar(vin, car);
     }
 }
