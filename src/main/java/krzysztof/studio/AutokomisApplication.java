@@ -1,7 +1,10 @@
 package krzysztof.studio;
 
 import krzysztof.studio.car.CarRepository;
+import krzysztof.studio.config.SwaggerConfig;
 import krzysztof.studio.model.Car;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +14,8 @@ import java.util.Date;
 
 @SpringBootApplication
 public class AutokomisApplication {
+
+	private static final Logger log = LoggerFactory.getLogger(AutokomisApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutokomisApplication.class, args);

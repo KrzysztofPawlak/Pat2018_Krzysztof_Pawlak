@@ -61,4 +61,8 @@ public class CarServiceH2 implements CarOperations {
             eT.throwNotFoundException();
         }
     }
+
+    public boolean exists(Car car) throws Exception {
+        return getCarByVin(car.getVin()) != null;
+    }
 }

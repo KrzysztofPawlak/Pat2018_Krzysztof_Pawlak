@@ -5,7 +5,9 @@ import krzysztof.studio.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -29,6 +31,11 @@ public class Car {
     @Column(name = "car_registration_number")
     private String registrationNumber;
     @Column(name = "car_seats")
+    @InRange(
+            min = 1,
+            max = 6,
+            message = "maximum nr of seats is 6"
+    )
     private Integer nrOfSeats;
     @NotNull
     @InRange(

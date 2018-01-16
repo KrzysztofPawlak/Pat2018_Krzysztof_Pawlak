@@ -2,6 +2,7 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class CarController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value="/cars")
     public void createCar(@Valid @RequestBody Car car) throws Exception {
         carService.createCar(car);
@@ -37,7 +39,8 @@ public class CarController {
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/cars/{vin}")
-    public void updateCar(@PathVariable String vin, @RequestBody Car car) throws Exception {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateCar(@PathVariable String vin, @Valid @RequestBody Car car) throws Exception {
         carService.updateCar(vin, car);
     }
 }

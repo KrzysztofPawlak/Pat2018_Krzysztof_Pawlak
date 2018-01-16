@@ -14,9 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;
@@ -32,12 +32,13 @@ public class CarControllerTest {
     private UUID uuid;
     private String vin;
     private List<Car> cars;
+    DateFormat format;
 
     @InjectMocks
     private CarController carControllerMock;
 
     @Mock
-    private CarService carServiceMock;
+    private CarServiceH2 carServiceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -45,6 +46,8 @@ public class CarControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(carControllerMock).build();
 
         vin = uuid.randomUUID().toString();
+
+        format = new SimpleDateFormat("yyyy-MM-dd");
 
         cars = new ArrayList<>();
         Customer customer = new Customer();
@@ -102,9 +105,18 @@ public class CarControllerTest {
     }
 
     @Test
-    public void testCreateCar() throws Exception {
+    public void testCreateCarValid() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X2");
+        Car car = new Car(vin, "HONDA", "X2");
+        car.setRegistrationNumber("XH10221821");
+        car.setNrOfSeats(5);
+        car.setCylinderCapacity(1000);
+
+        Date registrationDate = format.parse("1970-12-12");
+        Date firstRegistrationDate = format.parse("1970-12-12");
+        car.setDateOfRegistration(registrationDate);
+        car.setDateOfFirstRegistration(firstRegistrationDate);
+
         System.out.println(asJsonString(car));
         when(carServiceMock.exists(car)).thenReturn(false);
         doNothing().when(carServiceMock).createCar(car);
@@ -122,7 +134,15 @@ public class CarControllerTest {
     @Test
     public void testUpdateCar() throws Exception {
         vin = uuid.randomUUID().toString();
-        Car car = new Car(vin, "BMW", "X7");
+        Car car = new Car(vin, "FIAT", "X7");
+        car.setRegistrationNumber("XH10221821");
+        car.setNrOfSeats(5);
+        car.setCylinderCapacity(1000);
+
+        Date registrationDate = format.parse("1970-12-12");
+        Date firstRegistrationDate = format.parse("1970-12-12");
+        car.setDateOfRegistration(registrationDate);
+        car.setDateOfFirstRegistration(firstRegistrationDate);
 
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
         doNothing().when(carServiceMock).updateCar(vin, car);
@@ -130,7 +150,7 @@ public class CarControllerTest {
         mockMvc.perform(put("/cars/{vin}", vin)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(car)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
         verify(carServiceMock, times(1)).updateCar(eq(vin), refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
