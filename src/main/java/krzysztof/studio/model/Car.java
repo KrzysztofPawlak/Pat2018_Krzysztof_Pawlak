@@ -1,5 +1,6 @@
 package krzysztof.studio.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import krzysztof.studio.validation.*;
 import krzysztof.studio.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,8 +10,10 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement
 @Entity
 @Table(name = "car")
 public class Car {
@@ -18,17 +21,21 @@ public class Car {
     @Id
     @Column(name = "car_vin")
     @NotNull
+    @ApiModelProperty(notes = "Numer identyfikacyjny pojazdu", required = true)
     private String vin; // vehicle identification number
     @NotNull
     @Enum(enumClass = MakeEnum.class, ignoreCase = true)
     @Column(name = "car_make")
+    @ApiModelProperty(notes = "Marka pojazdu", required = true)
     private String make;
     @Column(name = "car_model")
+    @ApiModelProperty(notes = "Model pojazdu", required = true)
     private String model;
     @NotNull
     @Size(max = 10)
     @RegistrationNumber
     @Column(name = "car_registration_number")
+    @ApiModelProperty(notes = "Numer rejestracyjny pojazdu", required = true)
     private String registrationNumber;
     @Column(name = "car_seats")
     @InRange(
@@ -36,7 +43,14 @@ public class Car {
             max = 6,
             message = "maximum nr of seats is 6"
     )
+    @ApiModelProperty(notes = "Ilość siedzeń", required = true)
     private Integer nrOfSeats;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @InDateRange
+    @Column(name = "car_date_first_registration")
+    @ApiModelProperty(notes = "Data pierwszej rejestracji pojazdu", required = true)
+    private Date dateOfFirstRegistration;
     @NotNull
     @InRange(
             min = 50,
@@ -44,16 +58,13 @@ public class Car {
             message = "minimum capacity is 50, maximum 6999"
     )
     @Column(name = "car_capacity")
+    @ApiModelProperty(notes = "Pojemność silnika", required = true)
     private Integer cylinderCapacity;
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @InDateRange
-    @Column(name = "car_date_first_registration")
-    private Date dateOfFirstRegistration;
     @NotNull
     @InDateRange
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "car_date_registration")
+    @ApiModelProperty(notes = "Data rejestracji pojazdu", required = true)
     private Date dateOfRegistration;
     @ManyToOne
     @JoinColumn(name = "customer_pesel")
