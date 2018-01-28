@@ -20,10 +20,10 @@ public class Car {
 
     @Id
     @Column(name = "car_vin")
-    @NotNull
+    @NotNull(message = "pusty numer identyfikacyjny pojazdu.")
     @ApiModelProperty(notes = "Numer identyfikacyjny pojazdu", required = true)
     private String vin; // vehicle identification number
-    @NotNull(message = "marka samochodu nie może być pusta.")
+    @NotNull(message = "Nie wybrano marki samochodu.")
     @Enum(enumClass = MakeEnum.class, ignoreCase = true, message = "Zła marka samochodu.")
     @Column(name = "car_make")
     @ApiModelProperty(notes = "Marka pojazdu", required = true)
@@ -31,9 +31,9 @@ public class Car {
     @Column(name = "car_model")
     @ApiModelProperty(notes = "Model pojazdu", required = true)
     private String model;
-    @NotNull
-    @Size(max = 10)
-    @RegistrationNumber
+    @NotNull(message = "Pusty numer rejestracyjny.")
+    @Size(max = 10, message = "Zbyt dużo znaków.")
+    @RegistrationNumber(message = "Zły format numeru rejestracyjnego.")
     @Column(name = "car_registration_number")
     @ApiModelProperty(notes = "Numer rejestracyjny pojazdu", required = true)
     private String registrationNumber;
@@ -41,27 +41,27 @@ public class Car {
     @InRange(
             min = 1,
             max = 6,
-            message = "dopuszczalna ilość siedzeń (1-6)"
+            message = "Dopuszczalna ilość siedzeń (1-6)."
     )
     @ApiModelProperty(notes = "Ilość siedzeń", required = true)
     private Integer nrOfSeats;
-    @NotNull
+    @NotNull(message = "Puste pole daty rejestracji.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @InDateRange
+    @InDateRange(message = "Przekroczono dopuszczalny zakres daty.")
     @Column(name = "car_date_first_registration")
     @ApiModelProperty(notes = "Data pierwszej rejestracji pojazdu", required = true)
     private Date dateOfFirstRegistration;
-    @NotNull
+    @NotNull(message = "Puste pole pojemności silnika.")
     @InRange(
             min = 50,
             max = 6999,
-            message = "minimum capacity is 50, maximum 6999"
+            message = "Przekroczono zakres pojemności silnika (50-6999)."
     )
     @Column(name = "car_capacity")
     @ApiModelProperty(notes = "Pojemność silnika", required = true)
     private Integer cylinderCapacity;
-    @NotNull
-    @InDateRange
+    @NotNull(message = "Puste pole daty rejestracji.")
+    @InDateRange(message = "Przekroczono dopuszczalny zakres daty.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "car_date_registration")
     @ApiModelProperty(notes = "Data rejestracji pojazdu", required = true)

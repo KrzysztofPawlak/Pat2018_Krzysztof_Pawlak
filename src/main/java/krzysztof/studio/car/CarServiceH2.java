@@ -4,20 +4,28 @@ import krzysztof.studio.exceptions.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Transactional
 public class CarServiceH2 implements CarOperations {
 
     @Autowired
     CarRepository carRepository;
 
     @Override
-    public List<Car> getAllCars() {
+    public List<Car> getAllCars() throws Exception {
         List<Car> cars = new ArrayList<>();
         carRepository.findAll().forEach(cars::add);
+
+        if(cars.isEmpty()) {
+            ExceptionThrower eT = new ExceptionThrower();
+            eT.throwNotFoundException();
+        }
+
         return cars;
     }
 
@@ -64,8 +72,23 @@ public class CarServiceH2 implements CarOperations {
 
     @Override
     public void updateCar(String vin, Car car) throws Exception {
-        if(carRepository.findOne(vin) != null) {
-            carRepository.save(car);
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<Car>> violations = validator.validate(car);
+        if(!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        if(getCarByVin(vin) != null) {
+            Car currentCar = carRepository.findOne(vin);
+            currentCar.setDateOfFirstRegistration(car.getDateOfFirstRegistration());
+            currentCar.setDateOfRegistration(car.getDateOfRegistration());
+            currentCar.setCylinderCapacity(car.getCylinderCapacity());
+            currentCar.setRegistrationNumber(car.getRegistrationNumber());
+            currentCar.setMake(car.getMake());
+            currentCar.setModel(car.getModel());
+            currentCar.setNrOfSeats(car.getNrOfSeats());
         } else {
             ExceptionThrower eT = new ExceptionThrower();
             eT.throwNotFoundException();

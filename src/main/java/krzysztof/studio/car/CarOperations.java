@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CarOperations {
 
-    List<Car> getAllCars();
+    List<Car> getAllCars() throws Exception;
     Car getCarByVin(String vin) throws Exception;
     void createCar(Car car) throws Exception;
     void deleteCar(String vin) throws Exception;

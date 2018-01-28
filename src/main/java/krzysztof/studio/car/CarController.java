@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Validated
 @RestController
@@ -25,15 +22,17 @@ public class CarController {
 
     @ApiOperation(value = "Wyświetla wszystkie pojazdy znajdujące się w bazie komisu.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "sukces")
+            @ApiResponse(code = 200, message = "sukces"),
+            @ApiResponse(code = 404, message = "nie znaleziono")
     })
     @RequestMapping(method = RequestMethod.GET, value="/cars", produces = { "application/json", "application/xml" })
-    public List<Car> getAllCars() {
+    public List<Car> getAllCars() throws Exception {
         return carService.getAllCars();
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "sukces")
+            @ApiResponse(code = 200, message = "sukces"),
+            @ApiResponse(code = 404, message = "nie znaleziono")
     })
     @ApiOperation(value = "Wyświetla dane pojedyńczego pojazdu na podstawie numeru identyfikacyjnego.")
     @RequestMapping(method = RequestMethod.GET, value="/cars/{vin}")
@@ -41,6 +40,11 @@ public class CarController {
         return carService.getCarByVin(vin);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "utworzono"),
+            @ApiResponse(code = 404, message = "nie znaleziono"),
+            @ApiResponse(code = 422, message = "błąd walidacji danych wejściowych")
+    })
     @ApiOperation(value = "Dodaje nowy pojazd do bazy komisu.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,8 +53,10 @@ public class CarController {
         carService.createCar(car);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "sukces")
+            @ApiResponse(code = 204, message = "usunieto pomyślnie"),
+            @ApiResponse(code = 404, message = "nie znaleziono")
     })
     @ApiOperation(value = "Usuwa pojazd z bazy komisu.")
     @RequestMapping(method=RequestMethod.DELETE, value="/cars/{vin}")
@@ -58,10 +64,15 @@ public class CarController {
         carService.deleteCar(vin);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "usuwanie zakończone sukcesem"),
+            @ApiResponse(code = 404, message = "nie znaleziono"),
+            @ApiResponse(code = 422, message = "błąd walidacji danych wejściowych")
+    })
     @ApiOperation(value = "Aktualizuje dane pojazdu z bazy komisu.")
     @RequestMapping(method=RequestMethod.PUT, value="/cars/{vin}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateCar(@PathVariable String vin, @Valid @RequestBody Car car) throws Exception {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateCar(@PathVariable String vin, @RequestBody Car car) throws Exception {
         carService.updateCar(vin, car);
     }
 }
