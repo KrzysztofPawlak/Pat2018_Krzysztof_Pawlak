@@ -4,8 +4,10 @@ import krzysztof.studio.exceptions.component.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CarServiceH2 implements CarOperations {
 
@@ -34,6 +36,14 @@ public class CarServiceH2 implements CarOperations {
 
     @Override
     public void createCar(Car car) throws Exception {
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<Car>> violations = validator.validate(car);
+        if(!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
         if(carRepository.findOne(car.getVin()) == null) {
             carRepository.save(car);
         } else {

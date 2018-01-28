@@ -23,8 +23,8 @@ public class Car {
     @NotNull
     @ApiModelProperty(notes = "Numer identyfikacyjny pojazdu", required = true)
     private String vin; // vehicle identification number
-    @NotNull
-    @Enum(enumClass = MakeEnum.class, ignoreCase = true)
+    @NotNull(message = "marka samochodu nie może być pusta.")
+    @Enum(enumClass = MakeEnum.class, ignoreCase = true, message = "Zła marka samochodu.")
     @Column(name = "car_make")
     @ApiModelProperty(notes = "Marka pojazdu", required = true)
     private String make;
@@ -41,7 +41,7 @@ public class Car {
     @InRange(
             min = 1,
             max = 6,
-            message = "maximum nr of seats is 6"
+            message = "dopuszczalna ilość siedzeń (1-6)"
     )
     @ApiModelProperty(notes = "Ilość siedzeń", required = true)
     private Integer nrOfSeats;

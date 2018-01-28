@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import javax.validation.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Validated
 @RestController
@@ -43,7 +45,7 @@ public class CarController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value="/cars")
-    public void createCar(@Valid @RequestBody Car car) throws Exception {
+    public void createCar(@RequestBody Car car) throws Exception {
         carService.createCar(car);
     }
 
