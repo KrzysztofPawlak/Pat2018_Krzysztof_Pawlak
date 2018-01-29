@@ -2,6 +2,8 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.repository.CarRepository;
+import krzysztof.studio.service.CarService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -27,12 +29,12 @@ public class CarServiceTest {
 
         Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-        carService.createCar(car);
+        carService.create(car);
     }
 
     @Test
     public void testGetCar() {
-        Car car = carService.getCarByVin(vin);
+        Car car = carService.read(vin);
         assertEquals(car.getVin(), vin);
     }
 

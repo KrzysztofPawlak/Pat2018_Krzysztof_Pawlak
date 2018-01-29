@@ -1,6 +1,5 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.service;
 
-import krzysztof.studio.car.CarOperations;
 import krzysztof.studio.model.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;

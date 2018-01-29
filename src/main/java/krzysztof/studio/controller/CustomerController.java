@@ -1,11 +1,14 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.controller;
 
+import io.swagger.annotations.Api;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.service.CustomerOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(value = "car", description = "Rest API dla operacji na klientach", tags = "Customer API")
 @RestController
 public class CustomerController {
 

@@ -1,12 +1,16 @@
-package krzysztof.studio.exceptions;
+package krzysztof.studio.util.error;
 
-import krzysztof.studio.exceptions.model.AlreadyExistException;
-import krzysztof.studio.exceptions.model.ExceptionResponse;
-import krzysztof.studio.exceptions.model.NotFoundException;
+import krzysztof.studio.util.error.model.AlreadyExistException;
+import krzysztof.studio.util.error.model.ExceptionResponse;
+import krzysztof.studio.util.error.model.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 @ControllerAdvice
 public class ErrorHandlingController {
@@ -39,5 +43,18 @@ public class ErrorHandlingController {
         eR.setDescription(e.getDescription());
 
         return new ResponseEntity<ExceptionResponse>(eR, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseEntity<ExceptionResponse> handleInvalidInput(ConstraintViolationException ex) {
+
+        Set violations = ex.getConstraintViolations();
+        ConstraintViolation v = (ConstraintViolation) violations.toArray()[0];
+
+        ExceptionResponse eR = new ExceptionResponse();
+        eR.setCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        eR.setDescription("błąd danych wejściowych " + "w parametrze: " + v.getPropertyPath() + ". " + v.getMessage());
+
+        return new ResponseEntity(eR, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

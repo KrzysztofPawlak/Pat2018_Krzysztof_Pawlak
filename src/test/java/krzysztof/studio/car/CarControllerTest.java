@@ -1,8 +1,9 @@
 package krzysztof.studio.car;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import krzysztof.studio.controller.CarController;
 import krzysztof.studio.model.Car;
-import krzysztof.studio.model.Customer;
+import krzysztof.studio.service.CarServiceH2;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,9 +51,7 @@ public class CarControllerTest {
         format = new SimpleDateFormat("yyyy-MM-dd");
 
         cars = new ArrayList<>();
-        Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-//        car.setCustomer(customer);
         cars.add(car);
     }
 
@@ -66,26 +65,26 @@ public class CarControllerTest {
 
     @Test
     public void testGetAllCar() throws Exception {
-        when(carServiceMock.getAllCars()).thenReturn(cars);
+        when(carServiceMock.read()).thenReturn(cars);
         mockMvc.perform(get("/cars")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].make", is("BMW")))
                 .andExpect(jsonPath("$[0].model", is("X2")));
 
-        verify(carServiceMock, times(1)).getAllCars();
+        verify(carServiceMock, times(1)).read();
         verifyNoMoreInteractions(carServiceMock);
     }
 
     @Test
     public void findCarByVinNotFound() throws Exception {
         String notexistvin = "notexistvin";
-        when(carServiceMock.getCarByVin(notexistvin)).thenReturn(null);
+        when(carServiceMock.read(notexistvin)).thenReturn(null);
         mockMvc.perform(get("/cars/{vin}", notexistvin)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(isEmptyString()));
-        verify(carServiceMock, times(1)).getCarByVin(notexistvin);
+        verify(carServiceMock, times(1)).read(notexistvin);
         verifyNoMoreInteractions(carServiceMock);
     }
 
@@ -93,14 +92,14 @@ public class CarControllerTest {
     public void findCarByVinFound() throws Exception {
         vin = uuid.randomUUID().toString();
         Car car = new Car(vin, "BMW", "X2");
-        when(carServiceMock.getCarByVin(vin)).thenReturn(car);
-        mockMvc.perform(get("/cars/{vin}", vin))
+        when(carServiceMock.read(vin)).thenReturn(car);
+        mockMvc.perform(get("/cars/{vin}", vin)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.vin", is(vin)))
                 .andExpect(jsonPath("$.make", is("BMW")))
                 .andExpect(jsonPath("$.model", is("X2")));
-        verify(carServiceMock, times(1)).getCarByVin(vin);
+        verify(carServiceMock, times(1)).read(vin);
         verifyNoMoreInteractions(carServiceMock);
     }
 
@@ -117,17 +116,15 @@ public class CarControllerTest {
         car.setDateOfRegistration(registrationDate);
         car.setDateOfFirstRegistration(firstRegistrationDate);
 
-        System.out.println(asJsonString(car));
         when(carServiceMock.exists(car)).thenReturn(false);
-        doNothing().when(carServiceMock).createCar(car);
+        doNothing().when(carServiceMock).create(car);
 
         mockMvc.perform(post("/cars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(car)))
                 .andExpect(status().isCreated()); // spring framework status headers required to fill this
 
-//        verify(carServiceMock, times(1)).exists(car);
-        verify(carServiceMock, times(1)).createCar(refEq(car));
+        verify(carServiceMock, times(1)).create(refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
 
@@ -144,14 +141,14 @@ public class CarControllerTest {
         car.setDateOfRegistration(registrationDate);
         car.setDateOfFirstRegistration(firstRegistrationDate);
 
-        when(carServiceMock.getCarByVin(vin)).thenReturn(car);
-        doNothing().when(carServiceMock).updateCar(vin, car);
+        when(carServiceMock.read(vin)).thenReturn(car);
+        doNothing().when(carServiceMock).update(vin, car);
 
         mockMvc.perform(put("/cars/{vin}", vin)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(car)))
-                .andExpect(status().isCreated());
-        verify(carServiceMock, times(1)).updateCar(eq(vin), refEq(car));
+                .andExpect(status().isNoContent());
+        verify(carServiceMock, times(1)).update(eq(vin), refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
 
@@ -159,11 +156,27 @@ public class CarControllerTest {
     public void testDeleteCar() throws Exception {
         vin = uuid.randomUUID().toString();
         Car car = new Car(vin, "BMW", "X7");
-        when(carServiceMock.getCarByVin(vin)).thenReturn(car);
-        doNothing().when(carServiceMock).deleteCar(vin);
+        when(carServiceMock.read(vin)).thenReturn(car);
+        doNothing().when(carServiceMock).delete(vin);
         mockMvc.perform(delete("/cars/{vin}", vin))
-                .andExpect(status().isOk());
-        verify(carServiceMock, times(1)).deleteCar(vin);
+                .andExpect(status().isNoContent());
+        verify(carServiceMock, times(1)).delete(vin);
         verifyNoMoreInteractions(carServiceMock);
+    }
+
+    @Test
+    public void testContentNegotationXml() throws Exception {
+        when(carServiceMock.read()).thenReturn(cars);
+        mockMvc.perform(get("/cars")
+                .accept(MediaType.APPLICATION_XML))
+                .andExpect(content().contentType("application/xml;charset=UTF-8"));
+    }
+
+    @Test
+    public void testContentNegotationJson() throws Exception {
+        when(carServiceMock.read()).thenReturn(cars);
+        mockMvc.perform(get("/cars")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
     }
 }

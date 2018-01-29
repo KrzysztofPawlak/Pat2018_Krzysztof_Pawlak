@@ -1,59 +1,68 @@
 package krzysztof.studio.model;
 
-import krzysztof.studio.validation.*;
-import krzysztof.studio.validation.Enum;
+import io.swagger.annotations.ApiModelProperty;
+import krzysztof.studio.util.validation.*;
+import krzysztof.studio.util.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement
 @Entity
 @Table(name = "car")
 public class Car {
 
     @Id
     @Column(name = "car_vin")
-    @NotNull
+    @NotNull(message = "pusty numer identyfikacyjny pojazdu.")
+    @ApiModelProperty(notes = "Numer identyfikacyjny pojazdu", required = true)
     private String vin; // vehicle identification number
-    @NotNull
-    @Enum(enumClass = MakeEnum.class, ignoreCase = true)
+    @NotNull(message = "Nie wybrano marki samochodu.")
+    @Enum(enumClass = MakeEnum.class, ignoreCase = true, message = "Zła marka samochodu.")
     @Column(name = "car_make")
+    @ApiModelProperty(notes = "Marka pojazdu", required = true)
     private String make;
     @Column(name = "car_model")
+    @ApiModelProperty(notes = "Model pojazdu", required = true)
     private String model;
-    @NotNull
-    @Size(max = 10)
-    @RegistrationNumber
+    @NotNull(message = "Pusty numer rejestracyjny.")
+    @Size(max = 10, message = "Zbyt dużo znaków.")
+    @RegistrationNumber(message = "Zły format numeru rejestracyjnego.")
     @Column(name = "car_registration_number")
+    @ApiModelProperty(notes = "Numer rejestracyjny pojazdu", required = true)
     private String registrationNumber;
     @Column(name = "car_seats")
     @InRange(
             min = 1,
             max = 6,
-            message = "maximum nr of seats is 6"
+            message = "Dopuszczalna ilość siedzeń (1-6)."
     )
+    @ApiModelProperty(notes = "Ilość siedzeń", required = true)
     private Integer nrOfSeats;
-    @NotNull
+    @NotNull(message = "Puste pole daty rejestracji.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @InDateRange(message = "Przekroczono dopuszczalny zakres daty.")
+    @Column(name = "car_date_first_registration")
+    @ApiModelProperty(notes = "Data pierwszej rejestracji pojazdu", required = true)
+    private Date dateOfFirstRegistration;
+    @NotNull(message = "Puste pole pojemności silnika.")
     @InRange(
             min = 50,
             max = 6999,
-            message = "minimum capacity is 50, maximum 6999"
+            message = "Przekroczono zakres pojemności silnika (50-6999)."
     )
     @Column(name = "car_capacity")
+    @ApiModelProperty(notes = "Pojemność silnika", required = true)
     private Integer cylinderCapacity;
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @InDateRange
-    @Column(name = "car_date_first_registration")
-    private Date dateOfFirstRegistration;
-    @NotNull
-    @InDateRange
+    @NotNull(message = "Puste pole daty rejestracji.")
+    @InDateRange(message = "Przekroczono dopuszczalny zakres daty.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "car_date_registration")
+    @ApiModelProperty(notes = "Data rejestracji pojazdu", required = true)
     private Date dateOfRegistration;
     @ManyToOne
     @JoinColumn(name = "customer_pesel")

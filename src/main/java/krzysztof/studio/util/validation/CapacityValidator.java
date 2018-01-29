@@ -1,4 +1,4 @@
-package krzysztof.studio.validation;
+package krzysztof.studio.util.validation;
 
 import org.springframework.stereotype.Component;
 

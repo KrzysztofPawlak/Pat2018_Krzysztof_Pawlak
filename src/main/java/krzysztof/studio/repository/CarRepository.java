@@ -1,4 +1,4 @@
-package krzysztof.studio.car;
+package krzysztof.studio.repository;
 
 import krzysztof.studio.model.Car;
 import org.springframework.data.repository.CrudRepository;

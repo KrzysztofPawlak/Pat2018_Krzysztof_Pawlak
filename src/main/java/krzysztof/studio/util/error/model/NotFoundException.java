@@ -1,7 +1,6 @@
-package krzysztof.studio.exceptions.model;
+package krzysztof.studio.util.error.model;
 
-public class AlreadyExistException extends Exception{
-
+public class NotFoundException extends Exception {
     private String description;
 
     public String getDescription() {

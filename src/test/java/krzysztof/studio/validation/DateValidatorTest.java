@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DateValidatorTest {
 
-    private static Validator validator;
+    private static Validator  validator;
 
     @BeforeClass
     public static void setUp() {

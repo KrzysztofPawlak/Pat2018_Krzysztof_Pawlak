@@ -1,8 +1,10 @@
 package krzysztof.studio.customer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import krzysztof.studio.controller.CustomerController;
 import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.service.CustomerService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -86,6 +88,7 @@ public class CustomerControllerTest {
         when(customerServiceMock.getCustomer(examplePesel)).thenReturn(customer);
         mockMvc.perform(get("/customers/{pesel}", examplePesel)
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -99,6 +102,7 @@ public class CustomerControllerTest {
         when(customerServiceMock.getCustomer(examplePesel)).thenReturn(customer);
         mockMvc.perform(get("/customers/{pesel}", examplePesel)
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cars", hasSize(CUSTOMER_NUMBER_CARS)))

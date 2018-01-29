@@ -1,7 +1,6 @@
 package krzysztof.studio;
 
-import krzysztof.studio.car.CarRepository;
-import krzysztof.studio.config.SwaggerConfig;
+import krzysztof.studio.repository.CarRepository;
 import krzysztof.studio.model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
