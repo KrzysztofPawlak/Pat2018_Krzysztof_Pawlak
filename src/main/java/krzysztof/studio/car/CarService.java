@@ -1,8 +1,6 @@
 package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +10,12 @@ public class CarService implements CarOperations {
     private List<Car> cars = new ArrayList();
 
     @Override
-    public List<Car> getAllCars() {
+    public List<Car> read() {
         return cars;
     }
 
     @Override
-    public Car getCarByVin(String vin) {
+    public Car read(String vin) {
         if(vin != null) {
             for(Car c : cars) {
                 if(c.getVin().equals(vin)) {
@@ -29,21 +27,21 @@ public class CarService implements CarOperations {
     }
 
     @Override
-    public void createCar(Car car) {
+    public void create(Car car) {
         if(car.getVin() != null && !exists(car)) {
             cars.add(car);
         }
     }
 
     @Override
-    public void deleteCar(String vin) {
+    public void delete(String vin) {
         if(vin != null) {
             cars.removeIf(t -> t.getVin().equals(vin));
         }
     }
 
     @Override
-    public void updateCar(String vin, Car car) {
+    public void update(String vin, Car car) {
         int position = 0;
         if(vin != null) {
             for(Car element : cars) {
@@ -58,6 +56,6 @@ public class CarService implements CarOperations {
     }
 
     public boolean exists(Car car) {
-        return getCarByVin(car.getVin()) != null;
+        return read(car.getVin()) != null;
     }
 }

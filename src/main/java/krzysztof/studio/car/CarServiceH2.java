@@ -17,7 +17,7 @@ public class CarServiceH2 implements CarOperations {
     CarRepository carRepository;
 
     @Override
-    public List<Car> getAllCars() throws Exception {
+    public List<Car> read() throws Exception {
         List<Car> cars = new ArrayList<>();
         carRepository.findAll().forEach(cars::add);
 
@@ -30,7 +30,7 @@ public class CarServiceH2 implements CarOperations {
     }
 
     @Override
-    public Car getCarByVin(String vin) throws Exception {
+    public Car read(String vin) throws Exception {
 
         Car car = carRepository.findOne(vin);
 
@@ -43,7 +43,7 @@ public class CarServiceH2 implements CarOperations {
     }
 
     @Override
-    public void createCar(Car car) throws Exception {
+    public void create(Car car) throws Exception {
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -61,7 +61,7 @@ public class CarServiceH2 implements CarOperations {
     }
 
     @Override
-    public void deleteCar(String vin) throws Exception {
+    public void delete(String vin) throws Exception {
         if(carRepository.findOne(vin) != null) {
             carRepository.delete(vin);
         } else {
@@ -71,7 +71,7 @@ public class CarServiceH2 implements CarOperations {
     }
 
     @Override
-    public void updateCar(String vin, Car car) throws Exception {
+    public void update(String vin, Car car) throws Exception {
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -80,7 +80,7 @@ public class CarServiceH2 implements CarOperations {
             throw new ConstraintViolationException(violations);
         }
 
-        if(getCarByVin(vin) != null) {
+        if(read(vin) != null) {
             Car currentCar = carRepository.findOne(vin);
             currentCar.setDateOfFirstRegistration(car.getDateOfFirstRegistration());
             currentCar.setDateOfRegistration(car.getDateOfRegistration());
@@ -96,6 +96,6 @@ public class CarServiceH2 implements CarOperations {
     }
 
     public boolean exists(Car car) throws Exception {
-        return getCarByVin(car.getVin()) != null;
+        return read(car.getVin()) != null;
     }
 }

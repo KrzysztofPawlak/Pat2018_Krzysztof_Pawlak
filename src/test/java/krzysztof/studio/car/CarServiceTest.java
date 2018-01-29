@@ -27,12 +27,12 @@ public class CarServiceTest {
 
         Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-        carService.createCar(car);
+        carService.create(car);
     }
 
     @Test
     public void testGetCar() {
-        Car car = carService.getCarByVin(vin);
+        Car car = carService.read(vin);
         assertEquals(car.getVin(), vin);
     }
 

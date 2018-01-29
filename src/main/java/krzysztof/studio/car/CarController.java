@@ -26,8 +26,8 @@ public class CarController {
             @ApiResponse(code = 404, message = "nie znaleziono")
     })
     @RequestMapping(method = RequestMethod.GET, value="/cars", produces = { "application/json", "application/xml" })
-    public List<Car> getAllCars() throws Exception {
-        return carService.getAllCars();
+    public List<Car> read() throws Exception {
+        return carService.read();
     }
 
     @ApiResponses(value = {
@@ -36,8 +36,8 @@ public class CarController {
     })
     @ApiOperation(value = "Wyświetla dane pojedyńczego pojazdu na podstawie numeru identyfikacyjnego.")
     @RequestMapping(method = RequestMethod.GET, value="/cars/{vin}")
-    public Car getCarByVin(@PathVariable String vin) throws Exception {
-        return carService.getCarByVin(vin);
+    public Car read(@PathVariable String vin) throws Exception {
+        return carService.read(vin);
     }
 
     @ApiResponses(value = {
@@ -49,8 +49,8 @@ public class CarController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value="/cars")
-    public void createCar(@RequestBody Car car) throws Exception {
-        carService.createCar(car);
+    public void create(@RequestBody Car car) throws Exception {
+        carService.create(car);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -60,8 +60,8 @@ public class CarController {
     })
     @ApiOperation(value = "Usuwa pojazd z bazy komisu.")
     @RequestMapping(method=RequestMethod.DELETE, value="/cars/{vin}")
-    public void deleteCar(@PathVariable String vin) throws Exception {
-        carService.deleteCar(vin);
+    public void delete(@PathVariable String vin) throws Exception {
+        carService.delete(vin);
     }
 
     @ApiResponses(value = {
@@ -72,7 +72,7 @@ public class CarController {
     @ApiOperation(value = "Aktualizuje dane pojazdu z bazy komisu.")
     @RequestMapping(method=RequestMethod.PUT, value="/cars/{vin}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCar(@PathVariable String vin, @RequestBody Car car) throws Exception {
-        carService.updateCar(vin, car);
+    public void update(@PathVariable String vin, @RequestBody Car car) throws Exception {
+        carService.update(vin, car);
     }
 }
