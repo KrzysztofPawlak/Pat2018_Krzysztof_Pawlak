@@ -2,6 +2,8 @@ package krzysztof.studio.car;
 
 import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.repository.CarRepository;
+import krzysztof.studio.service.CarService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

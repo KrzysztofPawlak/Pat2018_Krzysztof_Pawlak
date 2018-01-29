@@ -1,8 +1,8 @@
-package krzysztof.studio.exceptions;
+package krzysztof.studio.util.error;
 
-import krzysztof.studio.exceptions.model.AlreadyExistException;
-import krzysztof.studio.exceptions.model.ExceptionResponse;
-import krzysztof.studio.exceptions.model.NotFoundException;
+import krzysztof.studio.util.error.model.AlreadyExistException;
+import krzysztof.studio.util.error.model.ExceptionResponse;
+import krzysztof.studio.util.error.model.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

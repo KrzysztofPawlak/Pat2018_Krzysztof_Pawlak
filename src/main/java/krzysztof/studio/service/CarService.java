@@ -1,4 +1,4 @@
-package krzysztof.studio.car;
+package krzysztof.studio.service;
 
 import krzysztof.studio.model.Car;
 

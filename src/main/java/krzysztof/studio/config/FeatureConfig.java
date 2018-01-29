@@ -1,11 +1,11 @@
 package krzysztof.studio.config;
 
-import krzysztof.studio.car.CarOperations;
-import krzysztof.studio.car.CarService;
-import krzysztof.studio.car.CarServiceH2;
-import krzysztof.studio.customer.CustomerOperations;
-import krzysztof.studio.customer.CustomerService;
-import krzysztof.studio.customer.CustomerServiceH2;
+import krzysztof.studio.service.CarOperations;
+import krzysztof.studio.service.CarService;
+import krzysztof.studio.service.CarServiceH2;
+import krzysztof.studio.service.CustomerOperations;
+import krzysztof.studio.service.CustomerService;
+import krzysztof.studio.service.CustomerServiceH2;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

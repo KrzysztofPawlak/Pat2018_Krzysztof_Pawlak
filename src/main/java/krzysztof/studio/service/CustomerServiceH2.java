@@ -1,6 +1,7 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.service;
 
-import krzysztof.studio.exceptions.component.ExceptionThrower;
+import krzysztof.studio.repository.CustomerRepository;
+import krzysztof.studio.util.error.ExceptionThrower;
 import krzysztof.studio.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 

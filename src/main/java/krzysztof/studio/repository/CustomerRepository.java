@@ -1,4 +1,4 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.repository;
 
 import krzysztof.studio.model.Customer;
 import org.springframework.data.repository.CrudRepository;

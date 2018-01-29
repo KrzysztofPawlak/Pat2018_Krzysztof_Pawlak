@@ -1,8 +1,10 @@
 package krzysztof.studio.customer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import krzysztof.studio.controller.CustomerController;
 import krzysztof.studio.model.Car;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.service.CustomerService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;

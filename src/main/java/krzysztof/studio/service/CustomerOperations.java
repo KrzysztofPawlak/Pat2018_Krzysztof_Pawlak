@@ -1,4 +1,4 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.service;
 
 import krzysztof.studio.model.Customer;
 

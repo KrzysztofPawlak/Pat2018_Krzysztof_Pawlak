@@ -1,7 +1,9 @@
 package krzysztof.studio.car;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import krzysztof.studio.controller.CarController;
 import krzysztof.studio.model.Car;
+import krzysztof.studio.service.CarServiceH2;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

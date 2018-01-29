@@ -1,15 +1,17 @@
-package krzysztof.studio.validation;
+package krzysztof.studio.util.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Documented
-@Constraint(validatedBy = { RegistrationNumberValidator.class })
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RegistrationNumber {
-    String message() default "characters contains inappropriate characters";
+@Documented
+@Constraint(validatedBy = { MakeValidator.class })
+public @interface Enum {
+    String message() default "invalid";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+    Class<?extends java.lang.Enum<?>> enumClass();
+    public abstract boolean ignoreCase() default false;
 }

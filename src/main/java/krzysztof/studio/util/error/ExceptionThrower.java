@@ -1,7 +1,7 @@
-package krzysztof.studio.exceptions.component;
+package krzysztof.studio.util.error;
 
-import krzysztof.studio.exceptions.model.AlreadyExistException;
-import krzysztof.studio.exceptions.model.NotFoundException;
+import krzysztof.studio.util.error.model.AlreadyExistException;
+import krzysztof.studio.util.error.model.NotFoundException;
 
 public class ExceptionThrower {
 

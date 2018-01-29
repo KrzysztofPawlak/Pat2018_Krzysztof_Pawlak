@@ -1,14 +1,12 @@
 package krzysztof.studio.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import krzysztof.studio.validation.*;
-import krzysztof.studio.validation.Enum;
+import krzysztof.studio.util.validation.*;
+import krzysztof.studio.util.validation.Enum;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;

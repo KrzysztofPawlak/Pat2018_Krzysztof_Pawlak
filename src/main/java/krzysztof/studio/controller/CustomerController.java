@@ -1,7 +1,8 @@
-package krzysztof.studio.customer;
+package krzysztof.studio.controller;
 
 import io.swagger.annotations.Api;
 import krzysztof.studio.model.Customer;
+import krzysztof.studio.service.CustomerOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

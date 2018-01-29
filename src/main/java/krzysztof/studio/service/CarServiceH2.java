@@ -1,6 +1,7 @@
-package krzysztof.studio.car;
+package krzysztof.studio.service;
 
-import krzysztof.studio.exceptions.component.ExceptionThrower;
+import krzysztof.studio.repository.CarRepository;
+import krzysztof.studio.util.error.ExceptionThrower;
 import krzysztof.studio.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 
