@@ -86,6 +86,7 @@ public class CustomerControllerTest {
         when(customerServiceMock.getCustomer(examplePesel)).thenReturn(customer);
         mockMvc.perform(get("/customers/{pesel}", examplePesel)
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -99,6 +100,7 @@ public class CustomerControllerTest {
         when(customerServiceMock.getCustomer(examplePesel)).thenReturn(customer);
         mockMvc.perform(get("/customers/{pesel}", examplePesel)
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cars", hasSize(CUSTOMER_NUMBER_CARS)))

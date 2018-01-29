@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.DateFormat;
@@ -50,9 +51,7 @@ public class CarControllerTest {
         format = new SimpleDateFormat("yyyy-MM-dd");
 
         cars = new ArrayList<>();
-        Customer customer = new Customer();
         Car car = new Car(vin, "BMW", "X2");
-//        car.setCustomer(customer);
         cars.add(car);
     }
 
@@ -94,9 +93,9 @@ public class CarControllerTest {
         vin = uuid.randomUUID().toString();
         Car car = new Car(vin, "BMW", "X2");
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
-        mockMvc.perform(get("/cars/{vin}", vin))
+        mockMvc.perform(get("/cars/{vin}", vin)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.vin", is(vin)))
                 .andExpect(jsonPath("$.make", is("BMW")))
                 .andExpect(jsonPath("$.model", is("X2")));
@@ -117,7 +116,6 @@ public class CarControllerTest {
         car.setDateOfRegistration(registrationDate);
         car.setDateOfFirstRegistration(firstRegistrationDate);
 
-        System.out.println(asJsonString(car));
         when(carServiceMock.exists(car)).thenReturn(false);
         doNothing().when(carServiceMock).createCar(car);
 
@@ -126,7 +124,6 @@ public class CarControllerTest {
                 .content(asJsonString(car)))
                 .andExpect(status().isCreated()); // spring framework status headers required to fill this
 
-//        verify(carServiceMock, times(1)).exists(car);
         verify(carServiceMock, times(1)).createCar(refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
@@ -150,7 +147,7 @@ public class CarControllerTest {
         mockMvc.perform(put("/cars/{vin}", vin)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(car)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isNoContent());
         verify(carServiceMock, times(1)).updateCar(eq(vin), refEq(car));
         verifyNoMoreInteractions(carServiceMock);
     }
@@ -162,8 +159,24 @@ public class CarControllerTest {
         when(carServiceMock.getCarByVin(vin)).thenReturn(car);
         doNothing().when(carServiceMock).deleteCar(vin);
         mockMvc.perform(delete("/cars/{vin}", vin))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(carServiceMock, times(1)).deleteCar(vin);
         verifyNoMoreInteractions(carServiceMock);
+    }
+
+    @Test
+    public void testContentNegotationXml() throws Exception {
+        when(carServiceMock.getAllCars()).thenReturn(cars);
+        mockMvc.perform(get("/cars")
+                .accept(MediaType.APPLICATION_XML))
+                .andExpect(content().contentType("application/xml;charset=UTF-8"));
+    }
+
+    @Test
+    public void testContentNegotationJson() throws Exception {
+        when(carServiceMock.getAllCars()).thenReturn(cars);
+        mockMvc.perform(get("/cars")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
     }
 }

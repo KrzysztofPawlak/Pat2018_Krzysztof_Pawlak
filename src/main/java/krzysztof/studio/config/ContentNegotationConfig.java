@@ -16,8 +16,8 @@ public class ContentNegotationConfig extends WebMvcConfigurerAdapter {
                 parameterName("mediaType").
                 ignoreAcceptHeader(true).
                 useJaf(false).
-                defaultContentType(MediaType.APPLICATION_JSON).
+                defaultContentType(MediaType.APPLICATION_JSON_UTF8).
                 mediaType("xml", MediaType.APPLICATION_XML).
-                mediaType("json", MediaType.APPLICATION_JSON);
+                mediaType("json", MediaType.APPLICATION_JSON_UTF8);
     }
 }
